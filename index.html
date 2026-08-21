@@ -9,6 +9,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+       (function(){
+          emailjs.init("OQpLxByHLyx_BVflS");
+       })();
+    </script>
+
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
       
@@ -328,7 +336,6 @@
                 align-items: flex-start;
             }
 
-            /* Particles op de voorgrond, maar heel subtiel */
             #particles-canvas {
                 z-index: 5;
             }
@@ -340,7 +347,7 @@
             }
 
             .glass-panel {
-                background: rgba(10, 10, 10, 0.52); /* nog iets transparanter */
+                background: rgba(10, 10, 10, 0.52);
             }
 
             .sidebar {
@@ -667,8 +674,24 @@
 
         function handleFormSubmit(e) {
             e.preventDefault();
-            document.getElementById('contactForm').style.display = 'none';
-            document.getElementById('formSuccess').classList.add('visible');
+            
+            const submitBtn = document.querySelector('.cta-btn');
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            const serviceID = "service_yw0krkg";
+            const templateID = "template_1ywbrew"; // <-- Vergeet niet jouw EmailJS Template ID hier in te vullen
+
+            emailjs.sendForm(serviceID, templateID, e.target)
+                .then(() => {
+                    document.getElementById('contactForm').style.display = 'none';
+                    document.getElementById('formSuccess').classList.add('visible');
+                }, (error) => {
+                    alert('Er is iets misgegaan. Probeer het later opnieuw.');
+                    console.error('FAILED...', error);
+                    submitBtn.textContent = 'Request a Conversation';
+                    submitBtn.disabled = false;
+                });
         }
 
         // Particles
@@ -690,7 +713,6 @@
             particles.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                // Op mobiel: iets groter maar bewust lagere alpha omdat ze vóór de content zitten
                 radius: isMobile ? (Math.random() * 2.4 + 0.9) : (Math.random() * 2 + 0.5),
                 alpha:  isMobile ? (Math.random() * 0.22 + 0.10) : (Math.random() * 0.4 + 0.2),
                 speedY: isMobile ? -0.16 : -0.2
