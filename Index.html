@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velora Digital Services | Executive Support & Tech Solutions</title>
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+      
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: radial-gradient(circle at 20% 20%, rgba(25, 20, 15, 0.85), transparent 40%),
+                        radial-gradient(circle at 80% 80%, rgba(15, 12, 10, 0.85), transparent 40%),
+                        #050505 url('1000009126.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 100px 20px 40px;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1; /* desktop: achter de content */
+        }
+      
+        .layout-container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            width: 100%;
+            max-width: 940px;
+            gap: 25px;
+            align-items: flex-start;
+        }
+
+        .glass-panel {
+            background: rgba(10, 10, 10, 0.68);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(226, 209, 195, 0.18);
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);
+        }
+
+        /* ========== SIDEBAR – compact ========== */
+        .sidebar {
+            flex: 0 0 260px;
+            width: 260px;
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            position: sticky;
+            top: 100px;
+            align-self: flex-start;
+            height: auto;
+        }
+      
+        .brand {
+            font-family: 'Cinzel', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #f3ece4;
+            margin-bottom: 22px;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+        .brand span {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.62rem;
+            display: block;
+            font-weight: 400;
+            color: #c5bba8;
+            letter-spacing: 2px;
+            margin-top: 7px;
+            text-transform: uppercase;
+        }
+
+        .menu { list-style: none; margin-bottom: 28px; }
+        .menu li { margin-bottom: 4px; }
+        .menu a {
+            color: #bfae9c;
+            text-decoration: none;
+            font-size: 0.83rem;
+            font-weight: 400;
+            letter-spacing: 0.8px;
+            transition: all 0.3s ease;
+            display: block;
+            cursor: pointer;
+            padding: 3px 0;
+            line-height: 1.3;
+        }
+        .menu a:hover,
+        .menu a.active {
+            color: #f5eee6;
+            transform: translateX(6px);
+        }
+        .menu a:focus-visible {
+            outline: 1px solid rgba(245, 238, 230, 0.5);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+
+        .sidebar-trust {
+            padding-top: 16px;
+            border-top: 1px solid rgba(226, 209, 195, 0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+        .trust-badge {
+            font-size: 0.63rem;
+            color: #a3998b;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .trust-badge::before {
+            content: "";
+            width: 4px;
+            height: 4px;
+            background: rgba(226, 209, 195, 0.4);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active {
+            display: block;
+            animation: slideFadeIn 0.45s ease forwards;
+        }
+        @keyframes slideFadeIn {
+            from { opacity: 0; transform: translateX(12px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .main-content h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.85rem;
+            color: #f5eee6;
+            margin-bottom: 8px;
+        }
+        .tagline {
+            font-size: 0.85rem;
+            color: #c5bba8;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(226, 209, 195, 0.18);
+            line-height: 1.5;
+        }
+      
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .service-card {
+            background: rgba(255, 255, 255, 0.025);
+            padding: 18px 22px;
+            border-radius: 10px;
+            border-left: 2px solid rgba(226, 209, 195, 0.5);
+            transition: background 0.25s ease, border-color 0.25s ease;
+        }
+        .service-card:hover {
+            background: rgba(255, 255, 255, 0.045);
+            border-left-color: rgba(245, 238, 230, 0.65);
+        }
+        .service-card h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.05rem;
+            color: #f5eee6;
+            margin-bottom: 6px;
+        }
+        .service-card p {
+            font-size: 0.82rem;
+            color: #d1c8bd;
+            line-height: 1.6;
+        }
+
+        /* ========== FORM ========== */
+        .form-row { display: flex; gap: 14px; }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+            margin-bottom: 14px;
+        }
+        label {
+            font-size: 0.72rem;
+            color: #c5bba8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        input, textarea, select {
+            background: rgba(0, 0, 0, 0.40);
+            border: 1px solid rgba(226, 209, 195, 0.22);
+            padding: 11px;
+            color: #fff;
+            border-radius: 6px;
+            width: 100%;
+            font-size: 16px;
+            font-family: inherit;
+            transition: border-color 0.2s ease;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: rgba(245, 238, 230, 0.5);
+        }
+        textarea { resize: vertical; min-height: 80px; }
+
+        .cta-btn {
+            margin-top: 10px;
+            padding: 12px 28px;
+            background: #f5eee6;
+            color: #111;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-size: 0.8rem;
+            transition: background 0.25s ease, transform 0.2s ease;
+            min-height: 46px;
+        }
+        .cta-btn:hover {
+            background: #fff;
+            transform: translateY(-1px);
+        }
+
+        .form-success {
+            display: none;
+            padding: 24px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border: 1px solid rgba(226, 209, 195, 0.18);
+        }
+        .form-success.visible { display: block; }
+        .form-success h3 {
+            font-family: 'Cinzel', serif;
+            color: #f5eee6;
+            margin-bottom: 8px;
+            font-size: 1.15rem;
+        }
+        .form-success p { color: #c5bba8; font-size: 0.88rem; line-height: 1.55; }
+
+        .site-footer {
+            margin-top: 28px;
+            padding-top: 16px;
+            font-size: 0.65rem;
+            color: #8a8074;
+            letter-spacing: 0.5px;
+            text-align: center;
+            border-top: 1px solid rgba(226, 209, 195, 0.12);
+        }
+
+        /* ========== MOBILE HEADER / HAMBURGER ========== */
+        .mobile-header {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .hamburger {
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            padding: 0;
+            flex-shrink: 0;
+        }
+        .hamburger span {
+            display: block;
+            width: 20px;
+            height: 1.5px;
+            background: #f5eee6;
+            transition: all 0.28s ease;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(6.5px) rotate(45deg);
+        }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-6.5px) rotate(-45deg);
+        }
+
+        /* ========== MOBILE ========== */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 16px 32px;
+                align-items: flex-start;
+            }
+
+            /* Particles op de voorgrond, maar heel subtiel */
+            #particles-canvas {
+                z-index: 5;
+            }
+
+            .layout-container {
+                flex-direction: column;
+                gap: 16px;
+                max-width: 100%;
+            }
+
+            .glass-panel {
+                background: rgba(10, 10, 10, 0.52); /* nog iets transparanter */
+            }
+
+            .sidebar {
+                position: relative;
+                top: auto;
+                width: 100%;
+                height: auto;
+                flex: none;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            .mobile-header {
+                display: flex;
+                padding: 14px 18px;
+            }
+
+            .brand {
+                margin-bottom: 0;
+                font-size: 1.15rem;
+            }
+            .brand span { display: none; }
+
+            .menu-wrapper {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.32s ease;
+                padding: 0 18px;
+            }
+            .menu-wrapper.open {
+                max-height: 340px;
+                padding: 2px 18px 14px;
+            }
+
+            .menu { margin-bottom: 0; }
+            .menu li { margin-bottom: 1px; }
+            .menu a {
+                padding: 7px 0;
+                font-size: 0.9rem;
+                transform: none !important;
+            }
+
+            .sidebar-trust { display: none; }
+
+            .main-content {
+                padding: 24px 18px 20px;
+            }
+
+            .main-content h1 { font-size: 1.55rem; }
+            .tagline { font-size: 0.85rem; margin-bottom: 18px; }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .service-card {
+                padding: 16px 18px;
+                background: rgba(255, 255, 255, 0.035);
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .cta-btn { width: 100%; }
+
+            .site-footer {
+                margin-top: 20px;
+                padding-top: 14px;
+                font-size: 0.62rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .main-content { padding: 22px 16px 18px; }
+            .main-content h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+    <div class="layout-container">
+        <nav class="sidebar glass-panel" aria-label="Main navigation">
+            <div class="mobile-header">
+                <div class="brand">Velora</div>
+                <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+
+            <div class="menu-wrapper" id="menuWrapper">
+                <div class="brand desktop-brand">
+                    Velora
+                    <span>Discreet. Reliable. Decisive.</span>
+                </div>
+
+                <ul class="menu" role="tablist">
+                    <li><a class="nav-link active" role="tab" aria-selected="true" onclick="switchTab('overview', this)">Overview</a></li>
+                    <li><a class="nav-link" role="tab" aria-selected="false" onclick="switchTab('operations', this)">Operations & Automation</a></li>
+                    <li><a class="nav-link" role="tab" aria-selected="false" onclick="switchTab('web-marketing', this)">Websites & Marketing</a></li>
+                    <li><a class="nav-link" role="tab" aria-selected="false" onclick="switchTab('engagement', this)">How I Work</a></li>
+                    <li><a class="nav-link" role="tab" aria-selected="false" onclick="switchTab('contact', this)">Private Conversation</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-trust">
+                <div class="trust-badge">Strict Confidentiality · NDA Standard</div>
+                <div class="trust-badge">Encrypted Communication Only</div>
+                <div class="trust-badge">Limited Client Capacity</div>
+                <div class="trust-badge">Personal Introductions Preferred</div>
+            
+            </div>
+        </nav>
+
+        <main class="main-content glass-panel">
+            <section id="overview" class="tab-content active" role="tabpanel">
+                <h1>Velora Digital Services</h1>
+                <p class="tagline">Selective operational support and private introductions for those who value quiet competence.</p>
+              
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h3>Selective Client Intake</h3>
+                        <p>I work with a strict client cap to guarantee personal attention. Referrals take priority, but I make room for the right projects, if capacity allows.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>High-Impact Execution</h3>
+                        <p>Systems and processes designed to return 10–15 hours per week to senior decision-makers through precise automation and operational clarity.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Confidentiality by Design</h3>
+                        <p>Your work is private. I do not use public case studies or client lists, protecting your proprietary systems and ensuring that my work for you remains completely contained.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Core Principles</h3>
+                        <p>No large agency teams, no ticket systems, and no unnecessary complexity. I prioritize honest, straightforward solutions over expensive ones. If simple works, that is what we do.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="operations" class="tab-content" role="tabpanel">
+                <h1>Operations & Automation</h1>
+                <p class="tagline">Removing recurring friction so you and your team can focus on decisions that actually matter.</p>
+              
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h3>Workflow Automation</h3>
+                        <p>Excel, VBA, Power Automate and custom scripts that eliminate repetitive tasks, reduce errors, and generate reports without manual intervention.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Inbox & Calendar Protection</h3>
+                        <p>Intelligent filtering, prioritisation rules and scheduling systems that keep noise out and protect deep-work time.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Stakeholder Coordination</h3>
+                        <p>Simple systems that keep internal teams and external parties informed — reducing unnecessary back-and-forth.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Operational Clarity</h3>
+                        <p>Documented processes and lightweight systems that make handovers and scaling far less painful.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="web-marketing" class="tab-content" role="tabpanel">
+                <h1>Websites & Marketing</h1>
+                <p class="tagline">Digital presence designed for trust, not attention. Built for clients who prefer substance over spectacle.</p>
+              
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h3>Platform Architecture</h3>
+                        <p>Secure, fast and maintainable websites and internal tools. Clean code, thoughtful performance, and long-term stability.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Understated Identity</h3>
+                        <p>Visual and written presence that signals authority without noise — suitable for professional and private clients who prefer substance over spectacle.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Corporate Copywriting</h3>
+                        <p>Clear, precise language for websites, proposals and internal communications. No marketing fluff.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Quiet Content Systems</h3>
+                        <p>Lightweight frameworks for consistent messaging across channels, without the overhead of full-scale content teams.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="engagement" class="tab-content" role="tabpanel">
+                <h1>How I Work</h1>
+                <p class="tagline">A straightforward framework built on clarity, limited capacity and direct communication.</p>
+              
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h3>1. Conversation</h3>
+                        <p>You outline the situation, objectives and constraints. No lengthy questionnaires — just the essentials.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>2. Alignment</h3>
+                        <p>We define exact scope, timeline, communication rhythm and success criteria before any work begins.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>3. Execution</h3>
+                        <p>Quiet, focused delivery. You receive progress only when it matters.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>4. Ongoing relationship</h3>
+                        <p>Support continues only while it remains valuable. When relevant, thoughtful introductions are made.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="tab-content" role="tabpanel">
+                <h1>Inquiry</h1>
+                <p class="tagline" style="margin-bottom: 20px;">All inquiries are treated as confidential. I respond personally within 1–2 business days.</p>
+
+                <form class="contact-form" id="contactForm" onsubmit="handleFormSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Your Name / Title</label>
+                            <input type="text" id="name" name="name" required autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Direct Email Address</label>
+                            <input type="email" id="email" name="email" required autocomplete="email">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="scope">Engagement Type</label>
+                            <select id="scope" name="scope" onchange="updateMessagePlaceholder(this)">
+                                <option value="automation">Process & Workflow Automation</option>
+                                <option value="executive">Executive & Operational Support</option>
+                                <option value="website">Web Development & Digital Platform</option>
+                                <option value="custom">Bespoke Strategic Retainer</option>
+                                <option value="custom">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="budget">Project Tier / Scope</label>
+                            <select id="budget" name="budget">
+                                <option value="trial">Targeted Task / Trial Engagement</option>
+                                <option value="tier1">Defined System Build</option>
+                                <option value="tier2">Comprehensive Platform / Project</option>
+                                <option value="tier3">Full Advisory / Strategic Retainer</option>
+                                <option value="tier3">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="referral">Referral Source / Code (Optional)</label>
+                        <input type="text" id="referral" name="referral" placeholder="Name or introduction code">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Project Parameters & Objectives</label>
+                        <textarea id="message" name="message" rows="3" required placeholder="Briefly describe the situation, desired outcome, and any constraints..."></textarea>
+                    </div>
+
+                    <button type="submit" class="cta-btn">Request a Conversation</button>
+                </form>
+
+                <div class="form-success" id="formSuccess">
+                    <h3>Inquiry Received</h3>
+                    <p>Thank you. Your message has been received securely.<br>I will respond personally within 1–2 business days.</p>
+                </div>
+            </section>
+
+            <footer class="site-footer">
+                © 2026 Velora Digital Services · All communication is confidential
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => {
+                l.classList.remove('active');
+                l.setAttribute('aria-selected', 'false');
+            });
+            document.getElementById(tabId).classList.add('active');
+            element.classList.add('active');
+            element.setAttribute('aria-selected', 'true');
+
+            if (window.innerWidth <= 768) closeMobileMenu();
+
+            if (tabId !== 'contact') {
+                document.getElementById('contactForm').style.display = 'block';
+                document.getElementById('formSuccess').classList.remove('visible');
+            }
+        }
+
+        const hamburger = document.getElementById('hamburger');
+        const menuWrapper = document.getElementById('menuWrapper');
+
+        hamburger.addEventListener('click', () => {
+            const isOpen = menuWrapper.classList.toggle('open');
+            hamburger.classList.toggle('active', isOpen);
+            hamburger.setAttribute('aria-expanded', isOpen);
+            hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+        });
+
+        function closeMobileMenu() {
+            menuWrapper.classList.remove('open');
+            hamburger.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+            hamburger.setAttribute('aria-label', 'Open menu');
+        }
+
+        function updateMessagePlaceholder(select) {
+            const placeholders = {
+                automation: "Describe the recurring processes or bottlenecks you want to eliminate, and the tools currently in use...",
+                executive: "Outline the operational or administrative load you would like supported, and the preferred working rhythm...",
+                website: "Share the purpose of the platform, key audiences, and any technical or brand constraints...",
+                custom: "Describe the broader context and the type of ongoing support you are considering..."
+            };
+            document.getElementById('message').placeholder = placeholders[select.value] || placeholders.automation;
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            document.getElementById('contactForm').style.display = 'none';
+            document.getElementById('formSuccess').classList.add('visible');
+        }
+
+        // Particles
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        const isMobile = window.innerWidth <= 768;
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        let particles = [];
+        const count = isMobile ? 38 : 40;
+
+        for (let i = 0; i < count; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                // Op mobiel: iets groter maar bewust lagere alpha omdat ze vóór de content zitten
+                radius: isMobile ? (Math.random() * 2.4 + 0.9) : (Math.random() * 2 + 0.5),
+                alpha:  isMobile ? (Math.random() * 0.22 + 0.10) : (Math.random() * 0.4 + 0.2),
+                speedY: isMobile ? -0.16 : -0.2
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.y += p.speedY;
+                if (p.y < 0) p.y = canvas.height;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(245, 238, 230, ${p.alpha})`;
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        function handleResize() {
+            const desktopBrand = document.querySelector('.desktop-brand');
+            if (desktopBrand) {
+                desktopBrand.style.display = window.innerWidth > 768 ? 'block' : 'none';
+            }
+        }
+        window.addEventListener('resize', handleResize);
+        handleResize();
+    </script>
+</body>
+</html>
