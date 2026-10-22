@@ -1,746 +1,160 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velora Digital Services | Executive Support & Tech Solutions</title>
-  
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  
-    <!-- EmailJS SDK -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="text/javascript">
-       (function(){
-          emailjs.init("OQpLxByHLyx_BVflS");
-       })();
-    </script>
-
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-      
-        body {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: radial-gradient(circle at 20% 20%, rgba(25, 20, 15, 0.85), transparent 40%),
-                        radial-gradient(circle at 80% 80%, rgba(15, 12, 10, 0.85), transparent 40%),
-                        #050505 url('1000009126.png') no-repeat center center fixed;
-            background-size: cover;
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            padding: 100px 20px 40px;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-
-        #particles-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 1; /* desktop: achter de content */
-        }
-      
-        .layout-container {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            width: 100%;
-            max-width: 940px;
-            gap: 25px;
-            align-items: flex-start;
-        }
-
-        .glass-panel {
-            background: rgba(10, 10, 10, 0.68);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(226, 209, 195, 0.18);
-            border-radius: 16px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);
-        }
-
-        /* ========== SIDEBAR – compact ========== */
-        .sidebar {
-            flex: 0 0 260px;
-            width: 260px;
-            padding: 32px 24px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            position: sticky;
-            top: 100px;
-            align-self: flex-start;
-            height: auto;
-        }
-      
-        .brand {
-            font-family: 'Cinzel', serif;
-            font-size: 1.25rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: #f3ece4;
-            margin-bottom: 22px;
-            text-transform: uppercase;
-            line-height: 1.2;
-        }
-        .brand span {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.62rem;
-            display: block;
-            font-weight: 400;
-            color: #c5bba8;
-            letter-spacing: 2px;
-            margin-top: 7px;
-            text-transform: uppercase;
-        }
-
-        .menu { list-style: none; margin-bottom: 28px; }
-        .menu li { margin-bottom: 4px; }
-        .menu a {
-            color: #bfae9c;
-            text-decoration: none;
-            font-size: 0.83rem;
-            font-weight: 400;
-            letter-spacing: 0.8px;
-            transition: all 0.3s ease;
-            display: block;
-            cursor: pointer;
-            padding: 3px 0;
-            line-height: 1.3;
-        }
-        .menu a:hover,
-        .menu a.active {
-            color: #f5eee6;
-            transform: translateX(6px);
-        }
-        .menu a:focus-visible {
-            outline: 1px solid rgba(245, 238, 230, 0.5);
-            outline-offset: 3px;
-            border-radius: 3px;
-        }
-
-        .sidebar-trust {
-            padding-top: 16px;
-            border-top: 1px solid rgba(226, 209, 195, 0.15);
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
-        .trust-badge {
-            font-size: 0.63rem;
-            color: #a3998b;
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .trust-badge::before {
-            content: "";
-            width: 4px;
-            height: 4px;
-            background: rgba(226, 209, 195, 0.4);
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        /* ========== MAIN CONTENT ========== */
-        .main-content {
-            flex: 1;
-            padding: 40px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            min-height: 0;
-        }
-
-        .tab-content { display: none; }
-        .tab-content.active {
-            display: block;
-            animation: slideFadeIn 0.45s ease forwards;
-        }
-        @keyframes slideFadeIn {
-            from { opacity: 0; transform: translateX(12px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .main-content h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.85rem;
-            color: #f5eee6;
-            margin-bottom: 8px;
-        }
-        .tagline {
-            font-size: 0.85rem;
-            color: #c5bba8;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(226, 209, 195, 0.18);
-            line-height: 1.5;
-        }
-      
-        .services-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-        .service-card {
-            background: rgba(255, 255, 255, 0.025);
-            padding: 18px 22px;
-            border-radius: 10px;
-            border-left: 2px solid rgba(226, 209, 195, 0.5);
-            transition: background 0.25s ease, border-color 0.25s ease;
-        }
-        .service-card:hover {
-            background: rgba(255, 255, 255, 0.045);
-            border-left-color: rgba(245, 238, 230, 0.65);
-        }
-        .service-card h3 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.05rem;
-            color: #f5eee6;
-            margin-bottom: 6px;
-        }
-        .service-card p {
-            font-size: 0.82rem;
-            color: #d1c8bd;
-            line-height: 1.6;
-        }
-
-        /* ========== FORM ========== */
-        .form-row { display: flex; gap: 14px; }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            flex: 1;
-            margin-bottom: 14px;
-        }
-        label {
-            font-size: 0.72rem;
-            color: #c5bba8;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        input, textarea, select {
-            background: rgba(0, 0, 0, 0.40);
-            border: 1px solid rgba(226, 209, 195, 0.22);
-            padding: 11px;
-            color: #fff;
-            border-radius: 6px;
-            width: 100%;
-            font-size: 16px;
-            font-family: inherit;
-            transition: border-color 0.2s ease;
-        }
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: rgba(245, 238, 230, 0.5);
-        }
-        textarea { resize: vertical; min-height: 80px; }
-
-        .cta-btn {
-            margin-top: 10px;
-            padding: 12px 28px;
-            background: #f5eee6;
-            color: #111;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            font-size: 0.8rem;
-            transition: background 0.25s ease, transform 0.2s ease;
-            min-height: 46px;
-        }
-        .cta-btn:hover {
-            background: #fff;
-            transform: translateY(-1px);
-        }
-
-        .form-success {
-            display: none;
-            padding: 24px;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 10px;
-            border: 1px solid rgba(226, 209, 195, 0.18);
-        }
-        .form-success.visible { display: block; }
-        .form-success h3 {
-            font-family: 'Cinzel', serif;
-            color: #f5eee6;
-            margin-bottom: 8px;
-            font-size: 1.15rem;
-        }
-        .form-success p { color: #c5bba8; font-size: 0.88rem; line-height: 1.55; }
-
-        .site-footer {
-            margin-top: 28px;
-            padding-top: 16px;
-            font-size: 0.65rem;
-            color: #8a8074;
-            letter-spacing: 0.5px;
-            text-align: center;
-            border-top: 1px solid rgba(226, 209, 195, 0.12);
-        }
-
-        /* ========== MOBILE HEADER / HAMBURGER ========== */
-        .mobile-header {
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-        }
-        .hamburger {
-            background: none;
-            border: none;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 5px;
-            padding: 0;
-            flex-shrink: 0;
-        }
-        .hamburger span {
-            display: block;
-            width: 20px;
-            height: 1.5px;
-            background: #f5eee6;
-            transition: all 0.28s ease;
-        }
-        .hamburger.active span:nth-child(1) {
-            transform: translateY(6.5px) rotate(45deg);
-        }
-        .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) {
-            transform: translateY(-6.5px) rotate(-45deg);
-        }
-
-        /* ========== MOBILE ========== */
-        @media (max-width: 768px) {
-            body {
-                padding: 20px 16px 32px;
-                align-items: flex-start;
-            }
-
-            #particles-canvas {
-                z-index: 5;
-            }
-
-            .layout-container {
-                flex-direction: column;
-                gap: 16px;
-                max-width: 100%;
-            }
-
-            .glass-panel {
-                background: rgba(10, 10, 10, 0.52);
-            }
-
-            .sidebar {
-                position: relative;
-                top: auto;
-                width: 100%;
-                height: auto;
-                flex: none;
-                padding: 0;
-                overflow: hidden;
-            }
-
-            .mobile-header {
-                display: flex;
-                padding: 14px 18px;
-            }
-
-            .brand {
-                margin-bottom: 0;
-                font-size: 1.15rem;
-            }
-            .brand span { display: none; }
-
-            .menu-wrapper {
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.32s ease;
-                padding: 0 18px;
-            }
-            .menu-wrapper.open {
-                max-height: 340px;
-                padding: 2px 18px 14px;
-            }
-
-            .menu { margin-bottom: 0; }
-            .menu li { margin-bottom: 1px; }
-            .menu a {
-                padding: 7px 0;
-                font-size: 0.9rem;
-                transform: none !important;
-            }
-
-            .sidebar-trust { display: none; }
-
-            .main-content {
-                padding: 24px 18px 20px;
-            }
-
-            .main-content h1 { font-size: 1.55rem; }
-            .tagline { font-size: 0.85rem; margin-bottom: 18px; }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-
-            .service-card {
-                padding: 16px 18px;
-                background: rgba(255, 255, 255, 0.035);
-            }
-
-            .form-row {
-                flex-direction: column;
-                gap: 0;
-            }
-
-            .cta-btn { width: 100%; }
-
-            .site-footer {
-                margin-top: 20px;
-                padding-top: 14px;
-                font-size: 0.62rem;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .main-content { padding: 22px 16px 18px; }
-            .main-content h1 { font-size: 1.4rem; }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10100f">
+  <meta name="description" content="Velora provides discreet operational support, workflow automation, and refined digital experiences for people who value clarity and dependable execution.">
+  <title>Velora Digital Services — Quietly Effective</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Umami analytics -->
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="806fe482-ae95-4d26-9c0a-b5f2a85a545b"></script>
+  <!-- EmailJS: existing project configuration retained -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    (function () {
+      if (window.emailjs) emailjs.init("OQpLxByHLyx_BVflS");
+    })();
+  </script>
+  <style>
+    :root{color-scheme:dark;--bg:#10100f;--panel:#171715;--panel2:#1e1e1a;--text:#f5f1e9;--muted:#b9b4a9;--soft:#8f8b81;--line:rgba(231,220,199,.16);--gold:#d7c29d;--gold2:#eee0c5;--radius:22px;--max:1180px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:radial-gradient(ellipse at 78% 4%,rgba(141,117,78,.14),transparent 35%),radial-gradient(ellipse at 0% 60%,rgba(90,82,65,.10),transparent 38%),var(--bg);color:var(--text);font-family:"DM Sans",sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E");z-index:-1}
+    a{color:inherit}button,input,select,textarea{font:inherit}button,a,input,select,textarea{ -webkit-tap-highlight-color:transparent}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+    .wrap{width:min(var(--max),calc(100% - 48px));margin:auto}.topbar{position:sticky;top:0;z-index:20;background:rgba(16,16,15,.86);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}.nav{min-height:82px;display:flex;align-items:center;justify-content:space-between;gap:24px}.logo{display:inline-flex;flex-direction:column;text-decoration:none;line-height:1.1}.logo strong{font:800 1.24rem Manrope,sans-serif;letter-spacing:.19em}.logo span{font-size:.62rem;letter-spacing:.19em;color:var(--gold);margin-top:8px;text-transform:uppercase}.navlinks{display:flex;align-items:center;gap:27px}.navlinks a{text-decoration:none;color:var(--muted);font-size:.88rem;transition:color .2s}.navlinks a:hover{color:var(--text)}.nav-actions{display:flex;align-items:center;gap:12px}.menu-toggle{display:none;background:none;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:8px 11px}
+    .eyebrow{display:flex;align-items:center;gap:10px;color:var(--gold);font-size:.73rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}.eyebrow:before{content:"";height:1px;width:28px;background:var(--gold)}.hero{padding:100px 0 88px;display:grid;grid-template-columns:1.15fr .85fr;gap:64px;align-items:center}.hero h1{font:500 clamp(2.7rem,5.7vw,5.4rem)/1.05 Manrope,sans-serif;letter-spacing:-.055em;margin:22px 0}.hero h1 em{font-style:normal;color:var(--gold)}.hero-copy{font-size:1.08rem;color:var(--muted);max-width:650px}.actions{display:flex;flex-wrap:wrap;gap:13px;margin-top:30px}.btn{display:inline-flex;justify-content:center;align-items:center;gap:10px;min-height:48px;padding:13px 20px;border-radius:999px;text-decoration:none;font-weight:700;font-size:.87rem;border:1px solid var(--line);transition:transform .2s,background .2s,border-color .2s;cursor:pointer}.btn:hover{transform:translateY(-2px)}.btn-primary{background:var(--gold2);color:#191815;border-color:var(--gold2)}.btn-primary:hover{background:#fff1d8}.btn-secondary{color:var(--text);background:rgba(255,255,255,.025)}.hero-card{position:relative;padding:32px;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.015));box-shadow:0 25px 80px rgba(0,0,0,.22);overflow:hidden}.hero-card:after{content:"V";position:absolute;right:-20px;bottom:-95px;font:800 20rem Manrope,sans-serif;color:rgba(215,194,157,.055);pointer-events:none}.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:35px;color:var(--muted);font-size:.76rem;text-transform:uppercase;letter-spacing:.12em}.status-dot{width:7px;height:7px;background:#a9b69a;border-radius:50%;display:inline-block;margin-right:8px}.hero-card h2{font:600 1.65rem/1.25 Manrope,sans-serif;max-width:340px;margin:0 0 13px}.hero-card p{color:var(--muted);font-size:.93rem}.mini-list{list-style:none;padding:18px 0 0;margin:20px 0 0;border-top:1px solid var(--line)}.mini-list li{display:flex;gap:12px;padding:8px 0;color:#d7d2c8;font-size:.88rem}.mini-list li:before{content:"↗";color:var(--gold)}
+    .strip{border-block:1px solid var(--line);background:rgba(255,255,255,.018)}.strip-inner{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:25px 0}.strip-item{display:flex;align-items:center;gap:14px;color:var(--muted);font-size:.86rem}.strip-item b{font:600 1.7rem Manrope,sans-serif;color:var(--gold);letter-spacing:-.05em}
+    section.content-section{padding:92px 0}.section-head{max-width:720px;margin-bottom:35px}.section-head h2{font:500 clamp(2rem,4vw,3.3rem)/1.13 Manrope,sans-serif;letter-spacing:-.045em;margin:15px 0}.section-head p{color:var(--muted);max-width:650px}.services{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.service{padding:28px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,rgba(255,255,255,.035),rgba(255,255,255,.012));min-height:220px;transition:transform .2s,border-color .2s}.service:hover{transform:translateY(-3px);border-color:rgba(215,194,157,.4)}.service .number{font-size:.75rem;letter-spacing:.14em;color:var(--gold)}.service h3{font:600 1.22rem Manrope,sans-serif;margin:18px 0 9px}.service p{margin:0;color:var(--muted);font-size:.93rem}.service .tags{margin-top:20px;display:flex;flex-wrap:wrap;gap:7px}.tag{border:1px solid var(--line);border-radius:999px;padding:4px 9px;color:#c7c1b5;font-size:.72rem}
+    .approach{display:grid;grid-template-columns:.8fr 1.2fr;gap:70px;align-items:start}.approach-intro{position:sticky;top:125px}.approach-intro h2{font:500 clamp(2rem,4vw,3.1rem)/1.13 Manrope,sans-serif;letter-spacing:-.04em;margin:15px 0}.approach-intro p{color:var(--muted)}.steps{border-top:1px solid var(--line)}.step{display:grid;grid-template-columns:52px 1fr;gap:18px;padding:23px 0;border-bottom:1px solid var(--line)}.step-num{font:600 1.1rem Manrope,sans-serif;color:var(--gold)}.step h3{margin:0 0 5px;font:600 1.08rem Manrope,sans-serif}.step p{margin:0;color:var(--muted);font-size:.92rem}
+    .principles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.principle{padding:24px;border-top:1px solid var(--gold);background:rgba(255,255,255,.025)}.principle h3{font:600 1rem Manrope,sans-serif;margin:0 0 8px}.principle p{font-size:.88rem;color:var(--muted);margin:0}
+    .contact-section{padding:0 0 92px}.contact-box{display:grid;grid-template-columns:.85fr 1.15fr;gap:50px;padding:clamp(24px,5vw,54px);border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(125deg,rgba(215,194,157,.09),rgba(255,255,255,.018) 50%)}.contact-intro h2{font:500 clamp(2rem,4vw,3.1rem)/1.12 Manrope,sans-serif;letter-spacing:-.04em;margin:15px 0}.contact-intro p{color:var(--muted)}.contact-note{font-size:.8rem;color:var(--soft);margin-top:24px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}.field.full{grid-column:1/-1}.field label{font-size:.76rem;color:#d2cbbb;font-weight:600}.field input,.field select,.field textarea{width:100%;background:rgba(8,8,7,.55);border:1px solid rgba(231,220,199,.2);border-radius:10px;color:var(--text);padding:13px 14px;min-height:48px}.field textarea{min-height:120px;resize:vertical}.field input::placeholder,.field textarea::placeholder{color:#77746c}.field select option{background:#171715}.form-foot{display:flex;flex-wrap:wrap;align-items:center;gap:14px}.form-foot small{color:var(--soft);font-size:.75rem}.form-message{display:none;padding:15px;border-radius:10px;margin-top:14px;font-size:.9rem}.form-message.show{display:block}.form-message.success{border:1px solid rgba(169,182,154,.35);color:#d7e3cc;background:rgba(169,182,154,.08)}.form-message.error{border:1px solid rgba(220,140,125,.4);color:#f0c0b5;background:rgba(220,140,125,.08)}
+    footer{border-top:1px solid var(--line);padding:27px 0 35px;color:var(--soft);font-size:.78rem}.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px}.footer-links{display:flex;gap:18px}.footer-links a{color:var(--muted);text-decoration:none}.footer-links a:hover{color:var(--text)}.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}.reveal.visible{opacity:1;transform:none}
+    @media(max-width:900px){.hero{grid-template-columns:1fr;gap:35px;padding:72px 0}.hero-card{max-width:650px}.approach{grid-template-columns:1fr;gap:32px}.approach-intro{position:static}.contact-box{grid-template-columns:1fr;gap:28px}.navlinks{gap:16px}.navlinks a{font-size:.82rem}}
+    @media(max-width:680px){.wrap{width:min(100% - 32px,var(--max))}.nav{min-height:70px}.menu-toggle{display:inline-flex}.navlinks{display:none;position:absolute;top:69px;left:0;right:0;padding:18px 24px 22px;background:#141412;border-bottom:1px solid var(--line);flex-direction:column;align-items:flex-start;gap:16px}.navlinks.open{display:flex}.nav-actions{gap:8px}.logo strong{font-size:1.08rem}.logo span{font-size:.55rem}.hero{padding:57px 0 55px}.hero h1{font-size:clamp(2.55rem,12vw,4rem)}.hero-copy{font-size:1rem}.hero-card{padding:24px}.strip-inner{grid-template-columns:1fr;gap:14px;padding:20px 0}.strip-item b{font-size:1.4rem}.content-section{padding:65px 0!important}.services{grid-template-columns:1fr}.service{min-height:0;padding:23px}.principles{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr;gap:0}.field.full{grid-column:auto}.contact-section{padding-bottom:65px}.contact-box{padding:23px}.footer-inner{align-items:flex-start;flex-direction:column}.footer-links{flex-wrap:wrap}.btn{width:100%}.actions{flex-direction:column}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+  </style>
 </head>
 <body>
-    <canvas id="particles-canvas" aria-hidden="true"></canvas>
-
-    <div class="layout-container">
-        <nav class="sidebar glass-panel" aria-label="Main navigation">
-            <div class="mobile-header">
-                <div class="brand">Velora</div>
-                <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
-                    <span></span><span></span><span></span>
-                </button>
-            </div>
-
-            <div class="menu-wrapper" id="menuWrapper">
-                <div class="brand desktop-brand">
-                    Velora
-                    <span>Discreet. Reliable. Decisive.</span>
-                </div>
-
-                <ul class="menu" role="tablist">
-                    <li><a class="nav-link active" role="tab" aria-selected="true" onclick="switchTab('overview', this)">Overview</a></li>
-                    <li><a class="nav-link" role="tab" aria-selected="false" onclick="switchTab('operations', this)">Operations & Automation</a></li>
-                    <li><a class="nav-link" role="tab" aria-selected="false" onclick="switchTab('web-marketing', this)">Websites & Marketing</a></li>
-                    <li><a class="nav-link" role="tab" aria-selected="false" onclick="switchTab('engagement', this)">How I Work</a></li>
-                    <li><a class="nav-link" role="tab" aria-selected="false" onclick="switchTab('contact', this)">Private Conversation</a></li>
-                </ul>
-            </div>
-
-            <div class="sidebar-trust">
-                <div class="trust-badge">Strict Confidentiality · NDA Standard</div>
-                <div class="trust-badge">Encrypted Communication Only</div>
-                <div class="trust-badge">Limited Client Capacity</div>
-                <div class="trust-badge">Personal Introductions Preferred</div>
-            
-            </div>
-        </nav>
-
-        <main class="main-content glass-panel">
-            <section id="overview" class="tab-content active" role="tabpanel">
-                <h1>Velora Digital Services</h1>
-                <p class="tagline">Selective operational support and private introductions for those who value quiet competence.</p>
-              
-                <div class="services-grid">
-                    <div class="service-card">
-                        <h3>Selective Client Intake</h3>
-                        <p>I work with a strict client cap to guarantee personal attention. Referrals take priority, but I make room for the right projects, if capacity allows.</p>
-                    </div>
-                    <div class="service-card">
-                        <h3>High-Impact Execution</h3>
-                        <p>Systems and processes designed to return 10–15 hours per week to senior decision-makers through precise automation and operational clarity.</p>
-                    </div>
-                    <div class="service-card">
-                        <h3>Confidentiality by Design</h3>
-                        <p>Your work is private. I do not use public case studies or client lists, protecting your proprietary systems and ensuring that my work for you remains completely contained.</p>
-                    </div>
-                    <div class="service-card">
-                        <h3>Core Principles</h3>
-                        <p>No large agency teams, no ticket systems, and no unnecessary complexity. I prioritize honest, straightforward solutions over expensive ones. If simple works, that is what we do.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="operations" class="tab-content" role="tabpanel">
-                <h1>Operations & Automation</h1>
-                <p class="tagline">Removing recurring friction so you and your team can focus on decisions that actually matter.</p>
-              
-                <div class="services-grid">
-                    <div class="service-card">
-                        <h3>Workflow Automation</h3>
-                        <p>Excel, VBA, Power Automate and custom scripts that eliminate repetitive tasks, reduce errors, and generate reports without manual intervention.</p>
-                    </div>
-                    <div class="service-card">
-                        <h3>Inbox & Calendar Protection</h3>
-                        <p>Intelligent filtering, prioritisation rules and scheduling systems that keep noise out and protect deep-work time.</p>
-                    </div>
-                    <div class="service-card">
-                        <h3>Stakeholder Coordination</h3>
-                        <p>Simple systems that keep internal teams and external parties informed — reducing unnecessary back-and-forth.</p>
-                    </div>
-                    <div class="service-card">
-                        <h3>Operational Clarity</h3>
-                        <p>Documented processes and lightweight systems that make handovers and scaling far less painful.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="web-marketing" class="tab-content" role="tabpanel">
-                <h1>Websites & Marketing</h1>
-                <p class="tagline">Digital presence designed for trust, not attention. Built for clients who prefer substance over spectacle.</p>
-              
-                <div class="services-grid">
-                    <div class="service-card">
-                        <h3>Platform Architecture</h3>
-                        <p>Secure, fast and maintainable websites and internal tools. Clean code, thoughtful performance, and long-term stability.</p>
-                    </div>
-                    <div class="service-card">
-                        <h3>Understated Identity</h3>
-                        <p>Visual and written presence that signals authority without noise — suitable for professional and private clients who prefer substance over spectacle.</p>
-                    </div>
-                    <div class="service-card">
-                        <h3>Corporate Copywriting</h3>
-                        <p>Clear, precise language for websites, proposals and internal communications. No marketing fluff.</p>
-                    </div>
-                    <div class="service-card">
-                        <h3>Quiet Content Systems</h3>
-                        <p>Lightweight frameworks for consistent messaging across channels, without the overhead of full-scale content teams.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="engagement" class="tab-content" role="tabpanel">
-                <h1>How I Work</h1>
-                <p class="tagline">A straightforward framework built on clarity, limited capacity and direct communication.</p>
-              
-                <div class="services-grid">
-                    <div class="service-card">
-                        <h3>1. Conversation</h3>
-                        <p>You outline the situation, objectives and constraints. No lengthy questionnaires — just the essentials.</p>
-                    </div>
-                    <div class="service-card">
-                        <h3>2. Alignment</h3>
-                        <p>We define exact scope, timeline, communication rhythm and success criteria before any work begins.</p>
-                    </div>
-                    <div class="service-card">
-                        <h3>3. Execution</h3>
-                        <p>Quiet, focused delivery. You receive progress only when it matters.</p>
-                    </div>
-                    <div class="service-card">
-                        <h3>4. Ongoing relationship</h3>
-                        <p>Support continues only while it remains valuable. When relevant, thoughtful introductions are made.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="contact" class="tab-content" role="tabpanel">
-                <h1>Inquiry</h1>
-                <p class="tagline" style="margin-bottom: 20px;">All inquiries are treated as confidential. I respond personally within 1–2 business days.</p>
-
-                <form class="contact-form" id="contactForm" onsubmit="handleFormSubmit(event)">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="name">Your Name / Title</label>
-                            <input type="text" id="name" name="name" required autocomplete="name">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Direct Email Address</label>
-                            <input type="email" id="email" name="email" required autocomplete="email">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="scope">Engagement Type</label>
-                            <select id="scope" name="scope" onchange="updateMessagePlaceholder(this)">
-                                <option value="automation">Process & Workflow Automation</option>
-                                <option value="executive">Executive & Operational Support</option>
-                                <option value="website">Web Development & Digital Platform</option>
-                                <option value="custom">Bespoke Strategic Retainer</option>
-                                <option value="custom">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="budget">Project Tier / Scope</label>
-                            <select id="budget" name="budget">
-                                <option value="trial">Targeted Task / Trial Engagement</option>
-                                <option value="tier1">Defined System Build</option>
-                                <option value="tier2">Comprehensive Platform / Project</option>
-                                <option value="tier3">Full Advisory / Strategic Retainer</option>
-                                <option value="tier3">Other</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="referral">Referral Source / Code (Optional)</label>
-                        <input type="text" id="referral" name="referral" placeholder="Name or introduction code">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="message">Project Parameters & Objectives</label>
-                        <textarea id="message" name="message" rows="3" required placeholder="Briefly describe the situation, desired outcome, and any constraints..."></textarea>
-                    </div>
-
-                    <button type="submit" class="cta-btn">Request a Conversation</button>
-                </form>
-
-                <div class="form-success" id="formSuccess">
-                    <h3>Inquiry Received</h3>
-                    <p>Thank you. Your message has been received securely.<br>I will respond personally within 1–2 business days.</p>
-                </div>
-            </section>
-
-            <footer class="site-footer">
-                © 2026 Velora Digital Services · All communication is confidential
-            </footer>
-        </main>
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="logo" href="#home" aria-label="Velora home"><strong>VELORA</strong><span>Quietly effective</span></a>
+    <nav class="navlinks" id="navlinks" aria-label="Main navigation">
+      <a href="#services">Services</a><a href="#approach">How I work</a><a href="#principles">Principles</a><a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="navlinks">Menu</button>
     </div>
+  </div>
+</header>
+<main id="home">
+  <div class="wrap hero">
+    <div class="reveal">
+      <div class="eyebrow">Independent digital & operational support</div>
+      <h1>Less friction.<br><em>More room to lead.</em></h1>
+      <p class="hero-copy">Velora helps busy professionals and ambitious businesses bring order to operations, automate repetitive work, and build a digital presence that feels considered, credible, and clear.</p>
+      <div class="actions"><a class="btn btn-primary" href="#contact"><span>Start a conversation</span> <span aria-hidden="true">↗</span></a><a class="btn btn-secondary" href="#services">Explore services</a></div>
+    </div>
+    <aside class="hero-card reveal" aria-label="Velora approach">
+      <div class="card-top"><span>The Velora approach</span><span><i class="status-dot"></i><span>Independent practice</span></span></div>
+      <h2>Thoughtful systems. Personal execution.</h2>
+      <p>Direct collaboration, practical solutions, and careful attention to the details that make work run better.</p>
+      <ul class="mini-list"><li>One point of contact, from start to finish</li><li>Solutions shaped around your real workflow</li><li>Discretion, clarity, and no unnecessary layers</li></ul>
+    </aside>
+  </div>
+  <div class="strip"><div class="wrap strip-inner">
+    <div class="strip-item"><b>01</b><span>Operational support & automation</span></div>
+    <div class="strip-item"><b>02</b><span>Websites & digital communication</span></div>
+    <div class="strip-item"><b>03</b><span>Personal, focused collaboration</span></div>
+  </div></div>
+  <section class="content-section" id="services"><div class="wrap">
+    <div class="section-head reveal"><div class="eyebrow">What I can help with</div><h2>Useful work, thoughtfully delivered.</h2><p>A flexible mix of operational support and digital craft. Start with one clearly defined problem, then build on what proves useful.</p></div>
+    <div class="services">
+      <article class="service reveal"><span class="number">01 / OPERATIONS</span><h3>Workflow automation</h3><p>Reduce repetitive tasks and avoidable errors with practical automations, reports, and connected workflows using tools such as Excel, VBA, and Power Automate.</p><div class="tags"><span class="tag">Excel / VBA</span><span class="tag">Power Automate</span><span class="tag">Efficiency</span></div></article>
+      <article class="service reveal"><span class="number">02 / AUTOMATION</span><h3>Python for small, practical tasks</h3><p>Lightweight Python scripts for everyday problems: cleaning spreadsheets, renaming batches of files, converting formats, extracting structured data, and automating repetitive steps. Best for clearly scoped tasks where a small tool saves time.</p><div class="tags"><span class="tag">Python scripts</span><span class="tag">File & data tasks</span><span class="tag">Quick utilities</span></div></article>
+      <article class="service reveal"><span class="number">02 / SUPPORT</span><h3>Executive & operational support</h3><p>Bring structure to busy calendars, inboxes, coordination, documentation, and recurring responsibilities—so attention stays on the work that matters.</p><div class="tags"><span class="tag">Coordination</span><span class="tag">Processes</span><span class="tag">Focus time</span></div></article>
+      <article class="service reveal"><span class="number">04 / DIGITAL</span><h3>Websites & digital platforms</h3><p>Create or refine a fast, accessible, maintainable website that reflects your work clearly and gives visitors a confident next step.</p><div class="tags"><span class="tag">Web design</span><span class="tag">Performance</span><span class="tag">Accessibility</span></div></article>
+      <article class="service reveal"><span class="number">05 / COMMUNICATION</span><h3>Brand voice & content systems</h3><p>Make complex ideas easier to understand with precise website copy, proposals, and lightweight content systems that keep communication consistent.</p><div class="tags"><span class="tag">Copywriting</span><span class="tag">Messaging</span><span class="tag">Content systems</span></div></article>
+    </div>
+  </div></section>
+  <section class="content-section" id="approach"><div class="wrap approach">
+    <div class="approach-intro reveal"><div class="eyebrow">A simple process</div><h2>Small steps. Clear outcomes.</h2><p>No oversized process or layers of account management. We keep the work focused, define what success looks like, and communicate directly.</p><a class="btn btn-secondary" href="#contact">Discuss your project ↗</a></div>
+    <div class="steps reveal">
+      <div class="step"><div class="step-num">01</div><div><h3>Conversation</h3><p>Tell me what is slowing you down, what you want to improve, and any constraints that matter.</p></div></div>
+      <div class="step"><div class="step-num">02</div><div><h3>Scope & priorities</h3><p>We agree on deliverables, timing, communication, and a realistic way to measure progress before work begins.</p></div></div>
+      <div class="step"><div class="step-num">03</div><div><h3>Focused execution</h3><p>I work directly on the agreed priorities and keep you updated without creating unnecessary meetings.</p></div></div>
+      <div class="step"><div class="step-num">04</div><div><h3>Review & next steps</h3><p>We review the result, document what is useful, and decide together whether further support makes sense.</p></div></div>
+    </div>
+  </div></section>
+  <section class="content-section" id="principles"><div class="wrap">
+    <div class="section-head reveal"><div class="eyebrow">What you can expect</div><h2>Quiet confidence, not empty promises.</h2></div>
+    <div class="principles">
+      <article class="principle reveal"><h3>Direct collaboration</h3><p>You work with the person doing the work. That keeps context intact and decisions quick.</p></article>
+      <article class="principle reveal"><h3>Practical by default</h3><p>I favour maintainable solutions over complexity for its own sake. If a simple fix works, start there.</p></article>
+      <article class="principle reveal"><h3>Discretion & care</h3><p>Your information is handled carefully. Confidentiality terms and access boundaries can be agreed before work starts.</p></article>
+    </div>
+  </div></section>
+  <section class="contact-section" id="contact"><div class="wrap contact-box">
+    <div class="contact-intro reveal"><div class="eyebrow">Start with the essentials</div><h2>Tell me what needs to work better.</h2><p>Share a little context and the outcome you are looking for. I’ll review your inquiry personally and reply if the project looks like a good fit.</p><p class="contact-note">Please avoid sending passwords, sensitive personal data, or confidential documents through this form.</p></div>
+    <div class="reveal">
+      <form id="contactForm">
+        <div class="form-grid">
+          <div class="field"><label for="name">Name</label><input id="name" name="name" autocomplete="name" required maxlength="120" placeholder="Your name"></div>
+          <div class="field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com"></div>
+          <div class="field"><label for="scope">What do you need help with?</label><select id="scope" name="scope" required><option value="automation">Workflow automation</option><option value="python">Python scripts for small tasks</option><option value="operations">Executive / operational support</option><option value="website">Website / digital platform</option><option value="content">Copywriting / content</option><option value="other">Something else</option></select></div>
+          <div class="field"><label for="scopeSize">Project size</label><select id="scopeSize" name="budget" required><option value="small">One focused task</option><option value="project">Defined project</option><option value="ongoing">Ongoing support</option><option value="unsure">Not sure yet</option></select></div>
+          <div class="field full"><label for="referral">How did you hear about Velora? (optional)</label><input id="referral" name="referral" maxlength="180" placeholder="Referral, search, introduction…"></div>
+          <div class="field full"><label for="message">A little about your project</label><textarea id="message" name="message" required minlength="10" maxlength="5000" placeholder="What would you like to improve, and what would a good result look like?"></textarea></div>
+        </div>
+        <div class="form-foot"><button class="btn btn-primary" id="submitBtn" type="submit"><span>Send inquiry</span> <span aria-hidden="true">↗</span></button><small>Your details are used to respond to your inquiry.</small></div>
+        <div class="form-message" id="formMessage" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </div></section>
+</main>
+<footer><div class="wrap footer-inner"><span>© <span id="year"></span> Velora Digital Services · <span>Independent support. Thoughtfully delivered.</span></span><div class="footer-links"><a href="#services">Services</a><a href="#approach">How I work</a><a href="#contact">Contact</a></div></div></footer>
+<script>
+const englishText = {
+  namePlaceholder: "Your name",
+  emailPlaceholder: "you@example.com",
+  referralPlaceholder: "Referral, search, introduction…",
+  messagePlaceholder: "What would you like to improve, and what would a good result look like?",
+  sending: "Sending…",
+  submit: "Send inquiry",
+  success: "Thank you. Your inquiry has been sent. I’ll be in touch if the project looks like a good fit.",
+  error: "Your message could not be sent right now. Please try again in a moment or contact me through your usual channel.",
+  configError: "The contact form is not configured yet. Please contact the site owner directly."
+};
+document.getElementById('name').placeholder = englishText.namePlaceholder;
+document.getElementById('email').placeholder = englishText.emailPlaceholder;
+document.getElementById('referral').placeholder = englishText.referralPlaceholder;
+document.getElementById('message').placeholder = englishText.messagePlaceholder;
+const menuToggle=document.getElementById('menuToggle'), navlinks=document.getElementById('navlinks');
+menuToggle.addEventListener('click',()=>{const open=navlinks.classList.toggle('open');menuToggle.setAttribute('aria-expanded',String(open));});
+navlinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navlinks.classList.remove('open');menuToggle.setAttribute('aria-expanded','false');}));
+document.getElementById('year').textContent=new Date().getFullYear();
+const revealObserver=('IntersectionObserver' in window)?new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');revealObserver.unobserve(entry.target);}}),{threshold:.12}):null;
+document.querySelectorAll('.reveal').forEach(el=>{if(revealObserver)revealObserver.observe(el);else el.classList.add('visible');});
+const form=document.getElementById('contactForm'), formMessage=document.getElementById('formMessage'), submitBtn=document.getElementById('submitBtn');
+form.addEventListener('submit',async e=>{
+  e.preventDefault();
+  const t=englishText;
+  formMessage.className='form-message';formMessage.textContent='';
+  if(!window.emailjs || typeof emailjs.sendForm!=='function'){
+    formMessage.textContent=englishText.configError;formMessage.classList.add('show','error');return;
+  }
+  submitBtn.disabled=true;submitBtn.querySelector('span').textContent=englishText.sending;
+  try{
+    await emailjs.sendForm('service_yw0krkg','template_1ywbrew',form);
+    form.reset();formMessage.textContent=englishText.success;formMessage.classList.add('show','success');
+  }catch(err){
+    console.error('Contact form submission failed.');
+    formMessage.textContent=englishText.error;formMessage.classList.add('show','error');
+  }finally{
+    submitBtn.disabled=false;submitBtn.querySelector('span').textContent=englishText.submit;
+  }
+});
 
-    <script>
-        function switchTab(tabId, element) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(l => {
-                l.classList.remove('active');
-                l.setAttribute('aria-selected', 'false');
-            });
-            document.getElementById(tabId).classList.add('active');
-            element.classList.add('active');
-            element.setAttribute('aria-selected', 'true');
-
-            if (window.innerWidth <= 768) closeMobileMenu();
-
-            if (tabId !== 'contact') {
-                document.getElementById('contactForm').style.display = 'block';
-                document.getElementById('formSuccess').classList.remove('visible');
-            }
-        }
-
-        const hamburger = document.getElementById('hamburger');
-        const menuWrapper = document.getElementById('menuWrapper');
-
-        hamburger.addEventListener('click', () => {
-            const isOpen = menuWrapper.classList.toggle('open');
-            hamburger.classList.toggle('active', isOpen);
-            hamburger.setAttribute('aria-expanded', isOpen);
-            hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
-        });
-
-        function closeMobileMenu() {
-            menuWrapper.classList.remove('open');
-            hamburger.classList.remove('active');
-            hamburger.setAttribute('aria-expanded', 'false');
-            hamburger.setAttribute('aria-label', 'Open menu');
-        }
-
-        function updateMessagePlaceholder(select) {
-            const placeholders = {
-                automation: "Describe the recurring processes or bottlenecks you want to eliminate, and the tools currently in use...",
-                executive: "Outline the operational or administrative load you would like supported, and the preferred working rhythm...",
-                website: "Share the purpose of the platform, key audiences, and any technical or brand constraints...",
-                custom: "Describe the broader context and the type of ongoing support you are considering..."
-            };
-            document.getElementById('message').placeholder = placeholders[select.value] || placeholders.automation;
-        }
-
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            
-            const submitBtn = document.querySelector('.cta-btn');
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
-
-            const serviceID = "service_yw0krkg";
-            const templateID = "template_1ywbrew"; // <-- Vergeet niet jouw EmailJS Template ID hier in te vullen
-
-            emailjs.sendForm(serviceID, templateID, e.target)
-                .then(() => {
-                    document.getElementById('contactForm').style.display = 'none';
-                    document.getElementById('formSuccess').classList.add('visible');
-                }, (error) => {
-                    alert('Er is iets misgegaan. Probeer het later opnieuw.');
-                    console.error('FAILED...', error);
-                    submitBtn.textContent = 'Request a Conversation';
-                    submitBtn.disabled = false;
-                });
-        }
-
-        // Particles
-        const canvas = document.getElementById('particles-canvas');
-        const ctx = canvas.getContext('2d');
-        const isMobile = window.innerWidth <= 768;
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        let particles = [];
-        const count = isMobile ? 38 : 40;
-
-        for (let i = 0; i < count; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: isMobile ? (Math.random() * 2.4 + 0.9) : (Math.random() * 2 + 0.5),
-                alpha:  isMobile ? (Math.random() * 0.22 + 0.10) : (Math.random() * 0.4 + 0.2),
-                speedY: isMobile ? -0.16 : -0.2
-            });
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.y += p.speedY;
-                if (p.y < 0) p.y = canvas.height;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(245, 238, 230, ${p.alpha})`;
-                ctx.fill();
-            });
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        function handleResize() {
-            const desktopBrand = document.querySelector('.desktop-brand');
-            if (desktopBrand) {
-                desktopBrand.style.display = window.innerWidth > 768 ? 'block' : 'none';
-            }
-        }
-        window.addEventListener('resize', handleResize);
-        handleResize();
-    </script>
+</script>
 </body>
 </html>
